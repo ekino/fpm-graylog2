@@ -1,11 +1,11 @@
 class Graylog2Web < FPM::Cookery::Recipe
   description 'Web dashboard for Graylog2 - open source log management solution that stores your logs in ElasticSearch.'
   name        'graylog2-web'
-  version     '0.9.6p1RC1'
-  revision    '3'
+  version     '0.9.6p1'
+  revision    '1'
   homepage    'http://graylog2.org'
-  source      'https://github.com/downloads/Graylog2/graylog2-web-interface/graylog2-web-interface-0.9.6p1-RC1.tar.gz'
-  md5         '1235c5ccf3d9cf2b3d92f27702bce60d'
+  source      'https://github.com/downloads/Graylog2/graylog2-web-interface/graylog2-web-interface-0.9.6p1.tar.gz'
+  md5         'f7b49a5259781a5a585cf7ee406e35c6'
   arch        'all'
   section     'admin'
 
@@ -21,10 +21,6 @@ class Graylog2Web < FPM::Cookery::Recipe
     system 'bundle install --path vendor/bundle 1>/dev/null'
     system 'bundle check --path vendor/bundle 1>/dev/null'
     system "patch -u vendor/bundle/ruby/1.8/gems/graylog2-declarative_authorization-0.5.2/lib/declarative_authorization/reader.rb #{workdir}/declarative_authorization-patch.p0"
-
-    inline_replace 'config/application.rb' do |s|
-      s.gsub! 'config.time_zone = \'UTC\'', 'config.time_zone = \'America/Los_Angeles\''
-    end
 
     inline_replace 'config/mongoid.yml' do |s|
       s.gsub! '<%= ENV[\'MONGOID_HOST\'] %>', 'localhost'

@@ -1,0 +1,8 @@
+graylog2-server/cache
+graylog2-server/pkg
+graylog2-server/tmp-build
+graylog2-server/tmp-dest
+graylog2-web/cache
+graylog2-web/pkg
+graylog2-web/tmp-build
+graylog2-web/tmp-dest
