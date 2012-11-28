@@ -18,13 +18,18 @@ SYSLOG4J_JAR=$SHAREDIR/syslog4j-0.9.46-bin.jar
 SVCNAME="graylog2-server"
 
 CONFIG="/etc/graylog2.conf"
-LOGFILE="/var/log/graylog2.log"
+LOGDIR="/var/log/graylog2"
+LOGFILE="$LOGDIR/graylog2.log"
 PIDFILE="/var/run/graylog2.pid"
 
 start() {
     if [ ! -e $CONFIG ]; then
         echo "Config file $CONFIG does not exist"
         return 1
+    fi
+
+    if [ ! -d $LOGDIR ]; then
+      mkdir -p $LOGDIR
     fi
 
     echo "Starting ${SVCNAME}"
