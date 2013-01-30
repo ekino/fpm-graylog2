@@ -16,11 +16,18 @@ SHAREDIR=$PREFIX/graylog2-server
 SERVER_JAR=$SHAREDIR/graylog2-server.jar
 SYSLOG4J_JAR=$SHAREDIR/syslog4j-0.9.46-bin.jar
 SVCNAME="graylog2-server"
+DEFAULT="/etc/default/$SVCNAME"
+JVM_OPTS=""
 
 CONFIG="/data/etc/graylog2.conf"
 LOGDIR="/data/var/log/graylog2"
 LOGFILE="$LOGDIR/graylog2.log"
 PIDFILE="/var/run/graylog2.pid"
+
+# overwrite settings with default file
+if [ -f "$DEFAULT" ]; then
+    . "$DEFAULT"
+fi
 
 start() {
     if [ ! -e $CONFIG ]; then
@@ -33,7 +40,7 @@ start() {
     fi
 
     echo "Starting ${SVCNAME}"
-        nohup `which java` -cp $SERVER_JAR:$SYSLOG4J_JAR org.graylog2.Main \
+        nohup `which java` -cp $SERVER_JAR:$SYSLOG4J_JAR $JVM_OPTS org.graylog2.Main \
 			-p ${PIDFILE} -f ${CONFIG} > $LOGFILE 2>&1 &
 
     # Sleep before testing the service
@@ -43,6 +50,7 @@ start() {
 }
 
 stop() {
+    echo "Stopping ${SVCNAME}"
     pid=`< $PIDFILE`
     kill $pid
     rm -f ${PIDFILE} # just in case
