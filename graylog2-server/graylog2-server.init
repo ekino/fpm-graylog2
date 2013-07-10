@@ -30,6 +30,10 @@ if [ -f "$DEFAULT" ]; then
 fi
 
 start() {
+
+    # checking drbd status, exiting if secondary
+    if [[ -f /sbin/drbdadm && "$(/sbin/drbdadm role r0 | cut -d / -f1)" == "Secondary" ]]; then exit; fi
+
     if [ ! -e $CONFIG ]; then
         echo "Config file $CONFIG does not exist"
         return 1
