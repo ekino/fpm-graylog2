@@ -58,7 +58,7 @@ stop() {
     pid=`< $PIDFILE`
     kill $pid
     rm -f ${PIDFILE} # just in case
-    sleep 2s
+    sleep 5s
 }
 
 graylog2_test() {
